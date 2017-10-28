@@ -63,7 +63,7 @@ RUN ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so /opt/anaconda/lib/libstdc++.so
 RUN ln -sf /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0 /opt/anaconda/lib/libgomp.so
 RUN ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so /opt/anaconda/lib/libstdc++.so.1
 
-RUN conda install -c conda-forge ffmpeg
+RUN conda install -y -c conda-forge ffmpeg
 
 # Some machine learning tools
 RUN conda update scikit-learn
