@@ -1,9 +1,8 @@
-FROM ubuntu:16.04
+FROM ubuntu:16.10
 MAINTAINER nishii@yamaguchi-u.ac.jp
 
 WORKDIR /home
 RUN mkdir src
-# RUN mkdir workspace
 
 RUN apt-get update --fix-missing\
   && apt-get install -y build-essential \
@@ -22,11 +21,14 @@ RUN apt-get update --fix-missing\
   libjpeg-dev libpng-dev libtiff-dev \
   libjasper-dev libv4l-dev \
   software-properties-common \
-  python-setuptools
+  python-setuptools \
+  tzdata
 
 # Japanize
 # https://qiita.com/tukiyo3/items/4623f130afd516571bb0
 RUN apt-get install -y language-pack-ja-base language-pack-ja ibus-mozc fonts-takao
+RUN ln -s -f /usr/share/zoneinfo/Asia/Tokyo /etc/localtime &&\
+    dpkg-reconfigure tzdata
 RUN update-locale LANG=ja_JP.UTF-8 LANGUAGE=ja_JP:ja
 ENV LANG ja_JP.UTF-8
 
@@ -34,7 +36,6 @@ ENV LANG ja_JP.UTF-8
 RUN apt-get clean
 
 # install anaconda
-# Change to the src
 WORKDIR /home/src
 
 RUN wget https://repo.continuum.io/archive/Anaconda3-5.0.0-Linux-x86_64.sh
@@ -71,25 +72,22 @@ RUN conda update conda
 
 RUN dbus-uuidgen > /etc/machine-id
 
-# create user pochi(uid=1000, gid=1000)
+# create user pochi(uid=1000, gid=100)
 ENV USER pochi
 ENV HOME /home/${USER}
-RUN export uid=1000 gid=1000 &&\
-    echo "${USER}:x:${uid}:${gid}:Developer,,,:${HOME}:/bin/bash" >> /etc/passwd &&\
-    echo "${USER}:x:${uid}:" >> /etc/group &&\
+RUN export uid=1000 gid=100 &&\
     echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers &&\
     install -d -m 0755 -o ${uid} -g ${gid} ${HOME}
 WORKDIR ${HOME}
+#RUN rmdir /home/src
 
 # make jupyter directory
-#RUN mkdir ${HOME}/jupyter/ && \
-#    jupyter notebook --generate-config && \
-#    sed -i -e "s/#c.NotebookApp.ip = 'localhost'/c.NotebookApp.ip = '*'/" /home/.jupyter/jupyter_notebook_config.py
+#RUN jupyter notebook --generate-config && \
+#    sed -i -e "s/#c.NotebookApp.ip = 'localhost'/c.NotebookApp.ip = '*'/" /home/pochi/.jupyter/jupyter_notebook_config.py
 
 # X
-ENV DISPLAY :0.0
-VOLUME /tmp/.X11-unix
-VOLUME ${HOME}
-USER ${USER}
+#VOLUME /tmp/.X11-unix
+#VOLUME ${HOME}
+#USER ${USER}
 
-CMD [ "bin/bash" ]
+CMD [ "/bin/bash" ]
