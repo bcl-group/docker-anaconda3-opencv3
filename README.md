@@ -1,10 +1,20 @@
 # ubuntu-anaconda3-opencv3
 
-anaconda3+opencv3の開発環境です。
-Linux環境の場合，`conda install -c menpo opencv3`でopencv3をインストールすすると動画を扱えません。
-ffmpegをイントールした上でopencv3をrebuildしないといけないので，この点を対応しています。
+An environment of anaconda3+opencv3
 
-他に以下も導入しています。
-- scikitlearn
-- 日本語環境
-- デフォルトユーザは pochi (UCI=1000,GID=1000)
+## About
+
+You cannot view movies by opencv3 on Linux, if you install opencv3 by
+`conda install -c menpo opencv3`.
+In this Docker image, we avoided this problem by rebuilding opencv3 after installing ffmpeg.
+
+## Includes
+
+- opencv3
+- scikit-learn
+- Japanese environment
+
+## miscs...
+
+- Default user name on Docker: jupyter (UCI=1000,GID=1000)
+- A script `docker-run.sh` to start the docker image is prepared.

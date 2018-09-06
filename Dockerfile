@@ -37,9 +37,10 @@ RUN apt-get clean
 # Change to the src
 WORKDIR /home/src
 
-RUN wget https://repo.continuum.io/archive/Anaconda3-5.0.0-Linux-x86_64.sh
-RUN bash Anaconda3-5.0.0-Linux-x86_64.sh -b -p /opt/anaconda
-RUN rm Anaconda3-5.0.0-Linux-x86_64.sh
+ENV ACVER 5.2.0
+RUN wget https://repo.continuum.io/archive/Anaconda3-${ACVER}-Linux-x86_64.sh
+RUN bash Anaconda3-${ACVER}-Linux-x86_64.sh -b -p /opt/anaconda
+RUN rm Anaconda3-${ACVER}-Linux-x86_64.sh
 ENV PATH /opt/anaconda/bin:$PATH
 
 RUN conda install -y \
@@ -71,8 +72,8 @@ RUN conda update conda
 
 RUN dbus-uuidgen > /etc/machine-id
 
-# create user pochi(uid=1000, gid=1000)
-ENV USER pochi
+# create user (uid=1000, gid=1000)
+ENV USER jovyan
 ENV HOME /home/${USER}
 RUN export uid=1000 gid=1000 &&\
     echo "${USER}:x:${uid}:${gid}:Developer,,,:${HOME}:/bin/bash" >> /etc/passwd &&\
