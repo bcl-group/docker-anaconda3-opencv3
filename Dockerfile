@@ -7,6 +7,7 @@ RUN mkdir src
 
 RUN apt-get update --fix-missing\
   && apt-get install -y build-essential \
+  g++ \
   wget \
   unzip \
   bzip2 \
@@ -44,8 +45,6 @@ RUN rm Anaconda3-${ACVER}-Linux-x86_64.sh
 ENV PATH /opt/anaconda/bin:$PATH
 
 RUN conda install -y \
-    gcc \
-    libgcc \
     ephem \
     astropy \
     pip \
