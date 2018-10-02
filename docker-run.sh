@@ -5,7 +5,7 @@ DKUSER=jovyan
 DKHOME=/home/${DKUSER}
 PWD=`pwd`
 WD="${PWD}"
-IMAGE=jnishii/docker-gym-nongpu
+IMAGE=jnishii/docker-anaconda3-opencv3
 
 DKOPT="--rm \
 	-h ${DKNAME} \
@@ -70,7 +70,8 @@ runJupyterFG(){
 
 case ${1} in
 	-h)  Usage ;;
+    -J)  runJupyterFG ;;
     -X)  runX ;;
     -bg) runJupyterBG ;;
-    *) runJupyterFG ;;
+    *) runX ;;
 esac
