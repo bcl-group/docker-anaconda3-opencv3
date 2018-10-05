@@ -25,9 +25,8 @@ DKOPT="--rm \
 Usage(){
 	echo "docker-run.sh [option]"
 	echo "  -h    : show this usage"
-	echo "  -X    : start bash terminal and X server"
-	echo "  -bg   : start jupyter notebook in background mode"
-	echo "  -fg (default) : start jupyter notebook in foreground mode"
+	echo "  -X    : start bash terminal and X server (default)"
+	echo "  -b    : start bash"
 }
 
 runX(){
@@ -54,7 +53,7 @@ runX(){
 	xhost -
 }
 
-runJupyterBG(){
+runBash(){
 	echo "running docker in background mode..."
 	echo 
 	echo "$ docker logs ${DKNAME}  # confirm docker token"
@@ -70,8 +69,7 @@ runJupyterFG(){
 
 case ${1} in
 	-h)  Usage ;;
-    -J)  runJupyterFG ;;
     -X)  runX ;;
-    -bg) runJupyterBG ;;
+    -b) runBash ;;
     *) runX ;;
 esac

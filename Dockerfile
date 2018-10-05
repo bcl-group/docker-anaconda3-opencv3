@@ -22,6 +22,7 @@ RUN apt-get update --fix-missing\
   libswscale-dev \
   libjpeg-dev libpng-dev libtiff-dev \
   libjasper-dev libv4l-dev \
+  sudo\
   software-properties-common \
   python-setuptools
 
@@ -92,4 +93,4 @@ VOLUME /tmp/.X11-unix
 VOLUME ${HOME}
 USER ${USER}
 
-CMD [ "bin/bash" ]
+CMD [ "/bin/bash" ]
